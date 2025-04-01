@@ -5,37 +5,37 @@ import { FlightData } from '../types/flight';
 const MOCK_FLIGHTS: Record<string, FlightData> = {
   "TK123": {
     number: "TK123",
-    status: "Uçuşta",
+    status: "In Flight",
     departure: {
-      airport: "İstanbul (IST)",
+      airport: "Istanbul (IST)",
       time: "08:30"
     },
     arrival: {
-      airport: "Londra (LHR)",
+      airport: "London (LHR)",
       time: "10:45"
     },
     progress: 65,
-    remaining: "Kalan Süre: 1 saat 10 dakika"
+    remaining: "Time Remaining: 1 hour 10 minutes"
   },
   "BA456": {
     number: "BA456",
-    status: "İniş Yapıyor",
+    status: "Landing",
     departure: {
       airport: "Berlin (BER)",
       time: "12:15"
     },
     arrival: {
-      airport: "İstanbul (IST)",
+      airport: "Istanbul (IST)",
       time: "16:20"
     },
     progress: 92,
-    remaining: "Kalan Süre: 15 dakika"
+    remaining: "Time Remaining: 15 minutes"
   },
   "LH789": {
     number: "LH789",
-    status: "Ertelendi",
+    status: "Delayed",
     departure: {
-      airport: "Münih (MUC)",
+      airport: "Munich (MUC)",
       time: "14:00 (15:30)",
       
     },
@@ -44,25 +44,25 @@ const MOCK_FLIGHTS: Record<string, FlightData> = {
       time: "17:45 (19:15)"
     },
     progress: 0,
-    remaining: "Kalkış Bekleniyor"
+    remaining: "Waiting for Departure"
   },
   "PC101": {
     number: "PC101",
-    status: "Zamanında",
+    status: "On Time",
     departure: {
-      airport: "İzmir (ADB)",
+      airport: "Izmir (ADB)",
       time: "16:40"
     },
     arrival: {
-      airport: "İstanbul (SAW)",
+      airport: "Istanbul (SAW)",
       time: "17:45"
     },
     progress: 25,
-    remaining: "Kalan Süre: 50 dakika"
+    remaining: "Time Remaining: 50 minutes"
   },
   "TK789": {
     number: "TK789",
-    status: "İptal Edildi",
+    status: "Cancelled",
     departure: {
       airport: "Antalya (AYT)",
       time: "09:15"
@@ -72,7 +72,7 @@ const MOCK_FLIGHTS: Record<string, FlightData> = {
       time: "12:05"
     },
     progress: 0,
-    remaining: "Uçuş İptal"
+    remaining: "Flight Cancelled"
   }
 };
 
@@ -85,7 +85,7 @@ export const searchFlight = async (flightNumber: string): Promise<FlightData> =>
       if (flight) {
         resolve(flight);
       } else {
-        reject(new Error("Uçuş bulunamadı"));
+        reject(new Error("Flight not found"));
       }
     }, 1000);
   });
@@ -99,47 +99,47 @@ export const chatWithAssistant = async (flightNumber: string, userMessage: strin
       const flight = MOCK_FLIGHTS[flightNumber];
       
       if (!flight) {
-        resolve("Bu uçuş hakkında bilgi bulunamadı.");
+        resolve("No information found for this flight.");
         return;
       }
       
       const lowercaseMessage = userMessage.toLowerCase();
       
-      if (lowercaseMessage.includes("saat") || lowercaseMessage.includes("zaman") || lowercaseMessage.includes("ne zaman")) {
+      if (lowercaseMessage.includes("time") || lowercaseMessage.includes("when") || lowercaseMessage.includes("arrival")) {
         resolve(`<div class="ai-response">
-          ${flight.number} uçuşu için planlanan varış saati: <strong>${flight.arrival.time}</strong>.<br>
+          Planned arrival time for flight ${flight.number}: <strong>${flight.arrival.time}</strong>.<br>
           ${flight.remaining}
         </div>`);
       }
-      else if (lowercaseMessage.includes("hava") || lowercaseMessage.includes("hava durumu")) {
+      else if (lowercaseMessage.includes("weather")) {
         resolve(`<div class="ai-response">
-          ${flight.arrival.airport} varış noktasında hava durumu: Parçalı bulutlu, 22°C.<br>
-          Uçuşu etkileyecek bir hava durumu beklenmiyor.
+          Weather at ${flight.arrival.airport}: Partly cloudy, 22°C.<br>
+          No adverse weather conditions expected to affect the flight.
         </div>`);
       }
-      else if (lowercaseMessage.includes("gecik") || lowercaseMessage.includes("rötar")) {
-        if (flight.status === "Ertelendi" || flight.status === "İptal Edildi") {
+      else if (lowercaseMessage.includes("delay") || lowercaseMessage.includes("late")) {
+        if (flight.status === "Delayed" || flight.status === "Cancelled") {
           resolve(`<div class="ai-response">
-            Evet, ${flight.number} uçuşu şu anda <strong>${flight.status}</strong> durumunda.
+            Yes, flight ${flight.number} is currently <strong>${flight.status}</strong>.
           </div>`);
         } else {
           resolve(`<div class="ai-response">
-            Hayır, ${flight.number} uçuşu şu anda zamanında ilerliyor ve herhangi bir gecikme bilgisi yok.
+            No, flight ${flight.number} is currently on schedule with no reported delays.
           </div>`);
         }
       }
-      else if (lowercaseMessage.includes("durum") || lowercaseMessage.includes("statü")) {
+      else if (lowercaseMessage.includes("status")) {
         resolve(`<div class="ai-response">
-          ${flight.number} uçuşunun mevcut durumu: <strong>${flight.status}</strong>.<br>
-          Uçuş ilerlemesi: %${flight.progress}
+          Current status of flight ${flight.number}: <strong>${flight.status}</strong>.<br>
+          Flight progress: ${flight.progress}%
         </div>`);
       }
       else {
-        resolve(`${flight.number} uçuşu hakkında sorduğunuz soruyu anlamadım. Şunları sorabilirsiniz:<br>
-        - Uçuş ne zaman varacak?<br>
-        - Hava durumu nasıl?<br>
-        - Uçuşta gecikme var mı?<br>
-        - Uçuşun durumu nedir?`);
+        resolve(`I didn't understand your question about flight ${flight.number}. You can ask me about:<br>
+        - When will the flight arrive?<br>
+        - What's the weather like?<br>
+        - Is there a delay?<br>
+        - What's the status of the flight?`);
       }
     }, 1500);
   });
