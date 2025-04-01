@@ -1,7 +1,10 @@
 
 import React, { useState } from 'react';
 import { Toaster } from 'sonner';
+import { SidebarProvider, SidebarTrigger, SidebarRail, SidebarInset } from '@/components/ui/sidebar';
 import Header from '../components/Header';
+import Navbar from '../components/Navbar';
+import AppSidebar from '../components/AppSidebar';
 import SearchForm from '../components/SearchForm';
 import FlightDetails from '../components/FlightDetails';
 import ChatAssistant from '../components/ChatAssistant';
@@ -39,28 +42,39 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Toaster position="top-center" richColors />
-      
-      <Header />
-      
-      <main className="container px-4 mx-auto flex-grow pb-24">
-        <SearchForm onFlightSearch={handleFlightSearch} />
+    <SidebarProvider>
+      <div className="min-h-screen flex flex-col bg-slate-900">
+        <Toaster position="top-center" richColors />
         
-        {error && (
-          <div className="error-message">
-            <p>{error}</p>
-          </div>
-        )}
+        <Navbar />
         
-        <FlightDetails flight={flightData} />
-      </main>
-      
-      <ChatAssistant 
-        activeFlight={activeFlight} 
-        onSendMessage={handleSendMessage} 
-      />
-    </div>
+        <div className="flex flex-1 overflow-hidden">
+          <AppSidebar />
+          <SidebarRail />
+          
+          <SidebarInset className="bg-slate-900">
+            <Header />
+            
+            <main className="container px-4 mx-auto flex-grow pb-24">
+              <SearchForm onFlightSearch={handleFlightSearch} />
+              
+              {error && (
+                <div className="error-message">
+                  <p>{error}</p>
+                </div>
+              )}
+              
+              <FlightDetails flight={flightData} />
+            </main>
+          </SidebarInset>
+        </div>
+        
+        <ChatAssistant 
+          activeFlight={activeFlight} 
+          onSendMessage={handleSendMessage} 
+        />
+      </div>
+    </SidebarProvider>
   );
 };
 
