@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, X, Robot } from 'lucide-react';
+import { MessageCircle, Send, X, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 
@@ -83,7 +83,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ activeFlight, onSendMessa
           <DrawerHeader className="border-b border-slate-700 bg-slate-800">
             <div className="flex justify-between items-center">
               <DrawerTitle className="flex items-center gap-2">
-                <Robot className="text-blue-500" size={18} />
+                <Bot className="text-blue-500" size={18} />
                 <span>SkyAI Asistan</span>
               </DrawerTitle>
               <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
