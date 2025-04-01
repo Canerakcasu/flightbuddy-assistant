@@ -1,0 +1,128 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    font-family: 'Inter', sans-serif;
+}
+
+.flight-search-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.flight-status-card {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: rgba(30, 41, 59, 0.7);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(51, 65, 85, 0.5);
+    backdrop-filter: blur(8px);
+}
+
+.flight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.7);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+}
+
+.flight-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.flight-info-item {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.flight-progress {
+    background-color: rgba(15, 23, 42, 0.5);
+    padding: 1rem;
+    border-radius: 0.75rem;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: rgb(226, 232, 240);
+    font-size: 0.875rem;
+}
+
+/* Toast styling */
+.toast {
+    background-color: white;
+    color: #1e293b;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 24rem;
+    animation: slide-in 0.2s ease-out;
+}
+
+.toast.success {
+    border-left: 4px solid #10b981;
+}
+
+.toast.error {
+    border-left: 4px solid #ef4444;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(-1rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Chat styling */
+.message {
+    word-break: break-word;
+}
+
+.user-message {
+    border-radius: 1rem;
+    border-top-right-radius: 0;
+}
+
+.bot-message {
+    border-radius: 1rem;
+    border-top-left-radius: 0;
+}
+
+.ai-capabilities {
+    list-style-type: none;
+}
+
+#chatWindow.expanded {
+    width: 90vw;
+    max-width: 600px;
+    height: 80vh;
+}
+
+#chatWindow.expanded #chatMessages {
+    max-height: calc(80vh - 120px);
+}
